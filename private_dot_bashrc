@@ -23,5 +23,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     prefix_directory_to_path "$HOME/.local/bin"
 fi
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
+# Don't overwrite SSH_AUTH_SOCK if it's coming from an ssh connection, otherwise agent forwarding breaks
+if [[ -z "${SSH_CONNECTION}" ]]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
